@@ -27,7 +27,7 @@ class AttentionLayer(Layer):
 
 # --- Load model & assets ---
 try:
-    model = load_model("moods_classifier_model.keras", custom_objects={"AttentionLayer": AttentionLayer})
+    model = load_model("mood_classifier_model.keras", custom_objects={"AttentionLayer": AttentionLayer})
     print("✅ Model loaded successfully!")
 except Exception as e:
     print(f"❌ Model load failed: {e}")
