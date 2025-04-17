@@ -9,12 +9,20 @@
     />
     <link rel="icon" type="image/x-icon" href="images/TitleLogo.png" />
     <title>Neuro AI</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="images/Logo.png" alt="" width="45" height="50" />
+          <label>NeuroAI</label>
         </a>
         <button
           class="navbar-toggler"
@@ -29,17 +37,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
             <a class="nav-link" href="newChat.html"
-              ><img src="images/NewChat.png" alt="" width="20" height="20" />New
-              Chat</a
+              ><img
+                src="images/newChat1.png"
+                alt=""
+                width="20"
+                height="20"
+              />New Chat</a
             >
             <a class="nav-link" href="chatHistory.html"
               ><img
-                src="images/History.png"
+                src="images/Previouschat.png"
                 alt=""
-                width="15"
-                height="15"
+                width="18"
+                height="18"
               />Previous Chat</a
             >
             <a class="nav-link">Name of user After Login/signup</a>
@@ -47,6 +58,91 @@
         </div>
       </div>
     </nav>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center"
+      style="height: 80%"
+    >
+      <div id="chatWindow" class="bg-dark mb-2" style="height: 80%; width: 90%">
+        <!-- Chat bubbles will be added here -->
+      </div>
+      <div
+        class="bg-dark rounded p-1"
+        style="height: max-content; width: 90%; border: solid black 5px"
+      >
+        <form class="input-group" action="javascript:void(0)">
+          <input
+            id="userInput"
+            type="text"
+            class="form-control bg-dark"
+            placeholder="Enter here"
+            style="border: 0px; color: white"
+          />
+          <button class="btn" type="button" id="button-addon2" onclick="sendMessage()">
+            <img src="images/SendWhiteIcon.png" alt="" width="25" height="20" />
+          </button>
+        </form>
+        <div class="d-flex justify-content-between pt-1">
+          <img src="images/WhiteWebcam.png" alt="" width="20" height="20" />
+          <img
+            src="images/WhiteMic.png"
+            alt=""
+            width="16"
+            height="18"
+            class="me-3"
+          />
+        </div>
+      </div>
+    </div>
+    <script>
+      async function sendMessage() {
+        const inputBox = document.getElementById("userInput");
+        const userText = inputBox.value.trim();
+        if (!userText) return;
+
+        // Add user message to chat window
+        addMessage(userText, "user");
+
+        try {
+          // Send to Flask backend
+          const response = await fetch("http://127.0.0.1:5000/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input: userText }),
+          });
+
+          const data = await response.json();
+          console.log(data);
+
+          if (data.prediction !== undefined) {
+            addMessage("Predicted mood: " + data.prediction, "bot");
+          } else if (data.error) {
+            addMessage("Error: " + data.error, "bot");
+          }
+        } catch (err) {
+          addMessage("Server error", "bot");
+          console.error(err);
+        }
+
+        // Clear input
+        inputBox.value = "";
+      }
+
+      function addMessage(text, sender) {
+        const chatWindow = document.getElementById("chatWindow");
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "d-flex justify-content-" + (sender === "user" ? "end" : "start");
+
+        const label = document.createElement("label");
+        label.className = "p-2 rounded";
+        label.style.color = "white";
+        label.style.backgroundColor = sender === "user" ? "#7b42dc" : "#1b67ae";
+        label.innerText = text;
+
+        msgDiv.appendChild(label);
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
   </body>
