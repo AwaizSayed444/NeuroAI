@@ -17,11 +17,12 @@
       }
     </style>
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="images/Logo.png" alt="" width="45" height="50" />
+          <label>NeuroAI</label>
         </a>
         <button
           class="navbar-toggler"
@@ -38,15 +39,19 @@
           <div class="navbar-nav">
             <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
             <a class="nav-link" href="newChat.html"
-              ><img src="images/NewChat.png" alt="" width="20" height="20" />New
-              Chat</a
+              ><img
+                src="images/NewChat1.png"
+                alt=""
+                width="20"
+                height="20"
+              />New Chat</a
             >
             <a class="nav-link" href="chatHistory.html"
               ><img
-                src="images/History.png"
+                src="images/Previouschat.png"
                 alt=""
-                width="15"
-                height="15"
+                width="18"
+                height="18"
               />Previous Chat</a
             >
             <a class="nav-link">Name of user After Login/signup</a>
@@ -55,27 +60,49 @@
       </div>
     </nav>
     <div
-      class="d-flex justify-content-center align-items-end"
+      class="d-flex flex-column justify-content-center align-items-center"
       style="height: 80%"
     >
+      <div class="bg-dark mb-2" style="height: 80%; width: 90%">
+        <div class="d-flex justify-content-end">
+          <label
+            class="p-2 rounded"
+            style="color: white; background-color: #7b42dc"
+            >hi</label
+          >
+        </div>
+        <div class="d-flex justify-content-start">
+          <label
+            class="p-2 rounded"
+            style="color: white; background-color: #1b67ae"
+            >hi</label
+          >
+        </div>
+      </div>
       <div
-        class="bg-light border border-dark rounded p-1 w-75"
-        style="height: max-content"
+        class="bg-dark rounded p-1"
+        style="height: max-content; width: 90%; border: solid black 5px"
       >
-        <div class="input-group">
+        <form class="input-group" action="/predict" method="post">
           <input
             type="text"
-            class="form-control bg-light"
+            class="form-control bg-dark"
             placeholder="Enter here"
-            style="border: 0px"
+            style="border: 0px; color: white"
           />
           <button class="btn" type="button" id="button-addon2">
-            <img src="images/Send.png" alt="" width="25" height="20" />
+            <img src="images/SendWhiteIcon.png" alt="" width="25" height="20" />
           </button>
-        </div>
+        </form>
         <div class="d-flex justify-content-between pt-1">
-          <img src="images/Camara.png" alt="" width="30" height="20" />
-          <img src="images/Audio.png" alt="" width="15" height="20" />
+          <img src="images/WhiteWebcam.png" alt="" width="20" height="20" />
+          <img
+            src="images/WhiteMic.png"
+            alt=""
+            width="16"
+            height="18"
+            class="me-3"
+          />
         </div>
       </div>
     </div>
