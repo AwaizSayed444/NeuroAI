@@ -63,34 +63,29 @@
       class="d-flex flex-column justify-content-center align-items-center"
       style="height: 80%"
     >
-      <div class="bg-dark mb-2" style="height: 80%; width: 90%">
-        <div class="d-flex justify-content-end">
-          <label
-            class="p-2 rounded"
-            style="color: white; background-color: #7b42dc"
-            >hi</label
-          >
-        </div>
-        <div class="d-flex justify-content-start">
-          <label
-            class="p-2 rounded"
-            style="color: white; background-color: #1b67ae"
-            >hi</label
-          >
-        </div>
-      </div>
       <div
-        class="bg-dark rounded p-1"
-        style="height: max-content; width: 90%; border: solid black 5px"
+        class="bg-dark mb-2"
+        style="height: 80%; width: 90%"
+        name="chatContainer"
+      ></div>
+      <div
+        class="rounded p-1"
+        style="height: max-content; width: 90%; background-color: #0000005f"
       >
-        <form class="input-group" action="/predict" method="post">
+        <form class="input-group" onsubmit="event.preventDefault()">
           <input
             type="text"
-            class="form-control bg-dark"
+            class="form-control"
             placeholder="Enter here"
-            style="border: 0px; color: white"
+            style="border: 0px; color: white; background-color: #00000000"
+            onkeydown="if(event.key === 'Enter') { sendMessage(); }"
           />
-          <button class="btn" type="button" id="button-addon2">
+          <button
+            class="btn"
+            type="button"
+            id="button-addon2"
+            onclick="sendMessage()"
+          >
             <img src="images/SendWhiteIcon.png" alt="" width="25" height="20" />
           </button>
         </form>
@@ -106,6 +101,33 @@
         </div>
       </div>
     </div>
+    <script>
+      var input = document.querySelector("input");
+      var button = document.querySelector("button");
+      var chatContainer = document.querySelector(
+        "[name='chatContainer']"
+      ).innerHTML;
+
+      function sendMessage() {
+        var message = input.value;
+        //var response = generateStory(message);
+        chatContainer =
+          chatContainer +
+          "<div class='d-flex justify-content-end'><label class='p-2 ms-3 my-2 rounded' style='color: white; background-color: #7b42dc'>" +
+          message +
+          "</label></div>";
+        chatContainer =
+          chatContainer +
+          "<div class='d-flex justify-content-start'><label class='p-2 me-3 my-2 rounded' style='color: white; background-color: #1b67ae'>" +
+          message +
+          "</label></div>";
+        document.querySelector("[name='chatContainer']").innerHTML =
+          chatContainer;
+        console.log(chatContainer);
+        console.log("User: " + message);
+        input.value = ""; // Clear the input field
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
   </body>
