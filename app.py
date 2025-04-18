@@ -1,12 +1,14 @@
+import os
+import json
+import pickle
+import numpy as np
 from flask import Flask, jsonify, request
+from sentence_transformers import SentenceTransformer
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Layer
 import tensorflow.keras.backend as K
-import numpy as np
-import pickle
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# Define your custom AttentionLayer (must match training!)
+# --- Custom Attention Layer (must match training) ---
 class AttentionLayer(Layer):
     def __init__(self, **kwargs):
         super(AttentionLayer, self).__init__(**kwargs)
@@ -22,56 +24,88 @@ class AttentionLayer(Layer):
         a = K.softmax(e, axis=1)
         return K.sum(x * a, axis=1)
 
-# Initialize Flask app
+# --- Initialize Flask App ---
 app = Flask(__name__)
 
-# Load model with custom layer
-model = load_model(r'E:\AI ML Models\moods_classifier_model.keras', custom_objects={'AttentionLayer': AttentionLayer})
+# --- Load Model, Encoder, SBERT ---
+print("📦 Loading mood classification model...")
+model = load_model(r"E:\AI ML Models\mood_classifier_model.keras", custom_objects={"AttentionLayer": AttentionLayer})
+print("✅ Model loaded!")
 
-# Load tokenizer or any necessary preprocessing tools
-with open('mood_encoder.pkl', 'rb') as f:
-    tokenizer = pickle.load(f)
+print("📦 Loading SBERT...")
+sbert = SentenceTransformer("paraphrase-MiniLM-L12-v2")
+print("✅ SBERT loaded!")
 
-print("Model loaded successfully!")
+print("📦 Loading LabelEncoder...")
+with open(r"E:\AI ML Models\mood_encoder.pkl", "rb") as f:
+    label_encoder = pickle.load(f)
+print("✅ LabelEncoder loaded!")
 
-# Preprocess input to match model input format (tokenization and padding)
-def preprocess_input(text):
-    # Tokenize the input text
-    sequences = tokenizer.texts_to_sequences([text])
-    # Pad the sequences to match the model's input shape
-    padded_sequences = pad_sequences(sequences, maxlen=100)  # Adjust maxlen as per your model's requirement
-    return padded_sequences
+print("📦 Loading question data...")
+with open(r"E:\AI ML Models\cleaned_questions.json", "r", encoding="utf-8") as f:
+    raw_data = json.load(f)
 
+question_data = {}
+for entry in raw_data:
+    category = entry.get("category", "").strip().lower()
+    all_qs = []
+    for doc in entry.get("questions", []):
+        all_qs.extend([q.strip() for q in doc.get("questions", []) if isinstance(q, str) and len(q.strip()) > 10])
+    if all_qs:
+        question_data[category] = all_qs
+
+print(f"✅ Loaded questions for {len(question_data)} mood categories")
+
+# --- Helper: Fetch Questions ---
+def fetch_questions(mood, count=3):
+    key = mood.strip().lower()
+    questions = question_data.get(key, [])
+    return list(np.random.choice(questions, size=min(count, len(questions)), replace=False)) if questions else []
+
+# --- Routes ---
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({"message": "Welcome to the Mood Classifier API!"})
 
+@app.route('/status', methods=['GET'])
+def status():
+    return jsonify({
+        "model_loaded": model is not None,
+        "sbert_loaded": sbert is not None,
+        "label_encoder_loaded": label_encoder is not None,
+        "loaded_question_categories": list(question_data.keys())
+    })
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get input data from the request
-        data = request.json
-        user_input = data['input']  # Expecting input as a string
+        data = request.get_json()
+        user_input = data.get('input', '').strip()
 
-        # Preprocess the input
-        processed_input = preprocess_input(user_input)
+        if not user_input:
+            return jsonify({'error': 'Input text is required'}), 400
 
-        # Make prediction
-        predictions = model.predict(processed_input)
-        predicted_class = int(np.argmax(predictions))  # Get the class with the highest probability
+        embedding = sbert.encode([user_input])
+        embedding = np.expand_dims(embedding, axis=1)  # Shape (1, 1, 384)
 
-        # Mood labels (make sure they match the class indices from your model)
-        mood_labels = ["Depression & Anxiety", "Personality & Behaviour", "Stress & Coping"]
+        predictions = model.predict(embedding)
+        predicted_idx = int(np.argmax(predictions))
+        predicted_mood = label_encoder.inverse_transform([predicted_idx])[0]
+        confidence = float(np.max(predictions))
 
-        # Return the prediction and probabilities
+        questions = fetch_questions(predicted_mood)
+
         return jsonify({
-            'prediction': mood_labels[predicted_class],
-            'probabilities': predictions.tolist()  # Return class probabilities as a list
+            'input': user_input,
+            'predicted_mood': predicted_mood,
+            'confidence': confidence,
+            'questions': questions,
+            'probabilities': predictions.tolist()
         })
 
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)}), 500
 
-# Run the app
+# --- Run Server ---
 if __name__ == '__main__':
     app.run(debug=True)
