@@ -1,0 +1,134 @@
+[
+  {
+    "timestamp": "2025-04-19T01:28:39.418387",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Avoiding external reminders of the stressful experience",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:28:39.419386",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Were any of your parents or other adult caregivers :",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:28:39.420446",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Adverse Childhood Experience (ACE) Questionnaire",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:30:40.997281",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "How did you experience it?",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:30:40.998286",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "seeking behavioral health services from the ODMHSAS and the OHCA ( SoonerCare/ Medicaid) ; with minimal",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:30:40.999296",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "boat accident, train wreck, plane crash)",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:31:10.602132",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Keeping your worst event in mind, please read each problem carefully and then select one of the numbers to the right",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:31:10.603041",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "stabbed, threatened with a knife, gun, bomb)",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:31:10.604040",
+    "user_input": "stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Ever hit you so hard that you had marks or were injured?",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:33:23.229441",
+    "user_input": "anxiety",
+    "predicted_mood": "Stress & Coping",
+    "confidence": 1.0,
+    "question": "tome it about it Sure apply",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:33:23.230913",
+    "user_input": "anxiety",
+    "predicted_mood": "Stress & Coping",
+    "confidence": 1.0,
+    "question": "Loss of Pleasure 9. Suicidal Thoughts or Wishes",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T01:33:23.232918",
+    "user_input": "anxiety",
+    "predicted_mood": "Stress & Coping",
+    "confidence": 1.0,
+    "question": "Have you felt downhearted and 0 0 D D D depressed?",
+    "answer": null
+  },
+  {
+    "timestamp": "2025-04-19T15:13:04.161347",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Exposure to t oxic substance (for example, danger ous",
+    "answer": "yes i used to take drugs"
+  },
+  {
+    "timestamp": "2025-04-19T15:13:26.491084",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "first responder)",
+    "answer": "I used to take toxic substance"
+  },
+  {
+    "timestamp": "2025-04-19T15:13:32.957984",
+    "user_input": "Stress",
+    "predicted_mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "question": "Was someone seriously injured or killed?",
+    "answer": "no"
+  },
+  {
+    "session_id": "5bded05c-99bf-4367-a70a-2f4005f4583e",
+    "timestamp": "2025-04-19 15:35:05.673143",
+    "mood": "Trauma & PTSD",
+    "confidence": 1.0,
+    "user_input": "Stress",
+    "answers": [
+      "very much ",
+      "No ",
+      "No "
+    ]
+  }
+]
